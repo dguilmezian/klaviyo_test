@@ -18,15 +18,19 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script
+        async type="text/javascript"
+        src="//static.klaviyo.com/onsite/js/klaviyo.js?company_id={{\App\Models\Configuration::getValue('public_api_key')}}"
+    ></script>
 </head>
 <body>
 <div id="app">
     <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
         <div class="container" style="text-decoration: underline">
 
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
+            <a class="navbar-brand" href="{{ url('/') }}">
+                {{ config('app.name', 'Laravel') }}
+            </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -36,12 +40,29 @@
             <div>
                 <a style="text-align: center"
                    class="navbar-brand"
-                   href="{{ url('/token') }}">Change Private key</a>
+                   href="{{ url('/token') }}">
+                    <button type="button" class="btn btn-secondary float-right">
+                        Change Private key
+                    </button>
+                </a>
             </div>
             <div>
                 <a style="text-align: center"
                    class="navbar-brand"
-                   href="{{ url('/list') }}">Change Contacts List ID</a>
+                   href="{{ url('/publickey') }}">
+                    <button type="button" class="btn btn-secondary float-right">
+                        Change Public API key
+                    </button>
+                </a>
+            </div>
+            <div>
+                <a style="text-align: center"
+                   class="navbar-brand"
+                   href="{{ url('/list') }}">
+                    <button type="button" class="btn btn-secondary float-right">
+                        Change Contacts List ID
+                    </button>
+                </a>
             </div>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">

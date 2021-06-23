@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class Member extends Model
@@ -25,6 +26,7 @@ class Member extends Model
         $member->name=$name;
         $member->email=$email;
         $member->phone=$phone;
+        $member->contact_list_id=Configuration::getValue('contacts_list');
         try {
             $member->save();
             self::uploadMember($member);
@@ -42,9 +44,11 @@ class Member extends Model
     {
         $url= 'https://a.klaviyo.com/api/v2/list/'.Configuration::getValue('contacts_list').'/members?api_key='.Configuration::getValue('token');
         $response = Http::post($url, [
-            'name' => $member->name,
-            'email' => $member->email,
-            'phone'=>$member->phone
+            'profiles'=>[
+                'name' => $member->name,
+                'email' => $member->email,
+                'phone'=>$member->phone
+            ]
         ]);
         if ($response->successful())
             $member->uploaded=1;
@@ -61,6 +65,17 @@ class Member extends Model
         foreach ($members as $member){
             self::uploadMember($member);
         }
+    }
+
+    /**
+     * Get all members from configurated list
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public static function getMembers()
+    {
+        return DB::table('members')
+            ->where('contact_list_id',Configuration::getValue('contacts_list'))
+            ->paginate(15);
     }
 
 

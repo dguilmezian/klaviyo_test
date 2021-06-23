@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class MemberMigration extends Migration
+class Configuration extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class MemberMigration extends Migration
      */
     public function up()
     {
-        Schema::create('members', function (Blueprint $table) {
+        Schema::create('configuration', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('phone');
-            $table->string('contact_list_id');
+            $table->string('value');
             $table->timestamps();
-            $table->tinyInteger('uploaded');
         });
     }
 
@@ -31,6 +28,6 @@ class MemberMigration extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('members');
+        Schema::dropIfExists('configuration');
     }
 }
